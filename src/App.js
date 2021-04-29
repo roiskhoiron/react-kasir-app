@@ -11,12 +11,13 @@ export default class App extends Component {
 
     this.state = {
       menus: [],
+      categoryChoosed: "Makanan",
     };
   }
 
   componentDidMount() {
     axios
-      .get(API_URL + "products")
+      .get(API_URL + "products?category.nama=" + this.state.categoryChoosed)
       .then((res) => {
         console.log("Response : ", res);
         const menus = res.data;
@@ -28,7 +29,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { menus } = this.state;
+    const { menus, categoryChoosed } = this.state;
 
     return (
       <div className="App">
@@ -36,7 +37,10 @@ export default class App extends Component {
         <div className="mt-4 text-justify">
           <Container fluid>
             <Row>
-              <ListCategories />
+              <ListCategories
+                onCategoryClicked={this.onCategoryClicked}
+                categoryChoosed={categoryChoosed}
+              />
               <Col>
                 <h4>
                   <strong>Daftar Produk</strong>
@@ -54,4 +58,22 @@ export default class App extends Component {
       </div>
     );
   }
+
+  onCategoryClicked = (value) => {
+    this.setState({
+      categoryChoosed: value,
+      meus: [],
+    });
+
+    axios
+      .get(API_URL + "products?category.nama=" + value)
+      .then((res) => {
+        console.log("Response : ", res);
+        const menus = res.data;
+        this.setState({ menus });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 }

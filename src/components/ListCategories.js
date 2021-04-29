@@ -7,7 +7,7 @@ import {faUtensils, faCoffee, faCheese} from '@fortawesome/free-solid-svg-icons'
 
 const Icon = ({ nama }) => {
   if(nama === "Makanan") return <FontAwesomeIcon icon={faUtensils} className="mr-2"/>;
-  if(nama === "Minuman") return <FontAwesomeIcon icon={faCoffee} className="mr-2" />;
+  if(nama === "Minuman") return <FontAwesomeIcon icon={faCoffee} />;
   if (nama === "Cemilan") return <FontAwesomeIcon icon={faCheese} className="mr-2" />;
   
   return <FontAwesomeIcon icon={faUtensils} className="mr-2" />;
@@ -37,6 +37,7 @@ export default class ListCategories extends Component {
 
   render() {
     const { categories } = this.state;
+    const { onCategoryClicked, categoryChoosed } = this.props;
 
     return (
       <Col md={2} mt="2">
@@ -47,8 +48,16 @@ export default class ListCategories extends Component {
         <ListGroup>
           {categories &&
             categories.map((category) => (
-              <ListGroup.Item key={category.id}>
-                <h5><Icon nama={category.nama} /> {category.nama}</h5>
+              <ListGroup.Item
+                key={category.id}
+                onClick={() => onCategoryClicked(category.nama)}
+                className={
+                  categoryChoosed === category.nama && "category-aktif"
+                }
+                style={{ cursor: "pointer" }}>
+                <h5>
+                  <Icon nama={category.nama} /> {category.nama}
+                </h5>
               </ListGroup.Item>
             ))}
         </ListGroup>
