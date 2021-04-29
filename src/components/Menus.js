@@ -2,9 +2,9 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { numberWithCommas } from "../utils/utils";
 
-const Menus = ({ menu }) => {
+const Menus = ({ menu, onMenuClicked }) => {
   return (
-    <Col md={4} xs={6} className="mb-4">
+    <Col md={4} xs={6} className="mb-4" onClick={() => onMenuClicked(menu)}>
       <Card className="shadow">
         <Card.Img
           variant="top"
