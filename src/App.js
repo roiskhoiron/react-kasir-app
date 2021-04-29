@@ -15,7 +15,8 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    axios.get(API_URL+"products").then((res) => {
+    axios.get(API_URL + "products").then((res) => {
+      console.log("Response : ", res);
       const menus = res.data;
       this.setState({ menus });
     })
@@ -25,7 +26,7 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.state.menus);
+    console.log("Data : ",this.state.menus);
     return (
       <div className="App">
         <NavbarComponent />
