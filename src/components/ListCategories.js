@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col } from "react-bootstrap";
+import { Col, ListGroup } from "react-bootstrap";
 import { API_URL } from "../utils/constants";
 import axios from "axios";
 
@@ -26,12 +26,20 @@ export default class ListCategories extends Component {
   }
 
   render() {
+    const { categories } = this.state;
+
     return (
       <Col md={2} mt="2">
         <h4>
           <strong>Daftar Kategori</strong>
         </h4>
         <hr />
+        <ListGroup>
+          {categories &&
+            categories.map((category) => (
+              <ListGroup.Item>{category.nama}</ListGroup.Item>
+            ))}
+        </ListGroup>
       </Col>
     );
   }
