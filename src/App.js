@@ -119,11 +119,11 @@ export default class App extends Component {
           };
 
           axios
-            .post(API_URL + "keranjangs", keranjang)
+            .put(API_URL + "keranjangs/"+res.data[0].id, keranjang)
             .then((res) => {
               swal({
-                title: "Sukses Masuk Keranjang",
-                text: "Sukses Masuk Keranjang " + keranjang.product.nama,
+                title: "Sukses Perbarui Keranjang",
+                text: "Sukses perbarui pesanan" + keranjang.product.nama,
                 icon: "success",
                 button: false,
               });
