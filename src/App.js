@@ -4,7 +4,7 @@ import { Hasil, NavbarComponent, ListCategories, Menus } from "./components";
 import { Col, Row, Container } from "react-bootstrap";
 import { API_URL } from "./utils/constants";
 import axios from "axios";
-import swal from 'sweetalert'
+import swal from "sweetalert";
 
 export default class App extends Component {
   constructor(props) {
@@ -86,24 +86,55 @@ export default class App extends Component {
   };
 
   onMenuClicked = (value) => {
-    const keranjang = {
-      jumlah: 1,
-      total_harga: value.harga,
-      product: value
-    }
-
     axios
-      .post(API_URL + "keranjangs", keranjang)
+      .get(API_URL + "keranjangs?product.id=" + value.id)
       .then((res) => {
-        swal({
-          title: "Sukses Masuk Keranjang",
-          text: "Sukses Masuk Keranjang " + keranjang.product.nama,
-          icon: "success",
-          button: false,
-        });
+        console.log("Data : " + res.data.length);
+        if (res.data.length === 0) {
+          console.log("data baru");
+          const keranjang = {
+            jumlah: 1,
+            total_harga: value.harga,
+            product: value,
+          };
+
+          axios
+            .post(API_URL + "keranjangs", keranjang)
+            .then((res) => {
+              swal({
+                title: "Sukses Masuk Keranjang",
+                text: "Sukses Masuk Keranjang " + keranjang.product.nama,
+                icon: "success",
+                button: false,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          const keranjang = {
+            jumlah: res.data[0].jumlah + 1,
+            total_harga: res.data[0].total_harga + value.harga,
+            product: value,
+          };
+
+          axios
+            .post(API_URL + "keranjangs", keranjang)
+            .then((res) => {
+              swal({
+                title: "Sukses Masuk Keranjang",
+                text: "Sukses Masuk Keranjang " + keranjang.product.nama,
+                icon: "success",
+                button: false,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 }
