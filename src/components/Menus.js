@@ -16,7 +16,12 @@ const Menus = ({ menu }) => {
           }
         />
         <Card.Body>
-          <Card.Title>{menu.nama}</Card.Title>
+          <Card.Title>
+            {menu.nama}{" "}
+            <strong>
+              <i>({menu.kode})</i>
+            </strong>
+          </Card.Title>
           <Card.Text>Rp. {numberWithCommas(menu.harga)}</Card.Text>
         </Card.Body>
       </Card>
