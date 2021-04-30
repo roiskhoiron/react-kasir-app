@@ -10,7 +10,7 @@ export default class Hasil extends Component {
     return (
       <Col md={3} mt='2'>
         <h4>
-          <strong>Hasil</strong>
+          <strong>Daftar Pesanan</strong>
         </h4>
         <hr />
         {keranjangs !== 0 && (
@@ -40,7 +40,7 @@ export default class Hasil extends Component {
           </ListGroup>
         )}
 
-        <Purchasing keranjangs={keranjangs} />
+        <Purchasing keranjangs={keranjangs} {...this.props} />
       </Col>
     );
   }
