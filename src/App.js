@@ -10,8 +10,8 @@ export default class App extends Component {
         <NavbarComponent />
         <main>
           <Switch>
-            <Route path='/' component={Home} />
-            <Route path='/sukses' component={Sukses} />
+            <Route path='/' component={Home} exact />
+            <Route path='/sukses' component={Sukses} exact />
           </Switch>
         </main>
       </Router>
