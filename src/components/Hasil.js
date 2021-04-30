@@ -1,25 +1,26 @@
 import React, { Component } from "react";
 import { Badge, Col, ListGroup, Row } from "react-bootstrap";
 import { numberWithCommas } from "../utils/utils";
+import Purchasing from "./Purchasing";
 
 export default class Hasil extends Component {
   render() {
     const { keranjangs } = this.props;
 
     return (
-      <Col md={3} mt="2">
+      <Col md={3} mt='2'>
         <h4>
           <strong>Hasil</strong>
         </h4>
         <hr />
         {keranjangs !== 0 && (
-          <ListGroup variant="flush">
+          <ListGroup variant='flush'>
             {keranjangs.map((item) => (
               <ListGroup.Item>
                 <Row>
                   <Col xs={2}>
                     <h4>
-                      <Badge pill variant="success">
+                      <Badge pill variant='success'>
                         {item.jumlah}
                       </Badge>
                     </h4>
@@ -29,7 +30,7 @@ export default class Hasil extends Component {
                     <p>Rp. {numberWithCommas(item.product.harga)}</p>
                   </Col>
                   <Col>
-                    <strong className="float-flight">
+                    <strong className='float-flight'>
                       Rp. {numberWithCommas(item.total_harga)}
                     </strong>
                   </Col>
@@ -38,6 +39,8 @@ export default class Hasil extends Component {
             ))}
           </ListGroup>
         )}
+
+        <Purchasing keranjangs={keranjangs} />
       </Col>
     );
   }
