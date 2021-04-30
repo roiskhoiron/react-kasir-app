@@ -14,6 +14,7 @@ const DialogKeranjang = ({
   keranjangDetail,
   jumlah,
   keterangan,
+  totalHarga
 }) => {
   console.log(keranjangDetail);
   if (keranjangDetail) {
@@ -31,7 +32,7 @@ const DialogKeranjang = ({
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId='exampleForm.ControlInput1'>
               <Form.Label>Total Harga</Form.Label>
-              <p>Rp. {numberWithCommas(keranjangDetail.product.harga)}</p>
+              <p>Rp. {numberWithCommas(totalHarga)}</p>
             </Form.Group>
 
             <Form.Group controlId='exampleForm.ControlInput1'>

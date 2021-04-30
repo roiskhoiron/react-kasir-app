@@ -72,7 +72,7 @@ export default class Home extends Component {
                   ))}
               </Row>
             </Col>
-            <Hasil keranjangs={keranjangs} {...this.props}/>
+            <Hasil keranjangs={keranjangs} refreshKerangjang={this.refreshKerangjang} {...this.props}/>
           </Row>
         </Container>
       </div>

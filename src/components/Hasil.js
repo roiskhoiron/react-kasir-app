@@ -1,5 +1,8 @@
+import axios from "axios";
 import React, { Component } from "react";
 import { Badge, Col, ListGroup, Row } from "react-bootstrap";
+import swal from "sweetalert";
+import { API_URL } from "../utils/constants";
 import { numberWithCommas } from "../utils/utils";
 import DialogKeranjang from "./DialogKeranjang";
 import Purchasing from "./Purchasing";
@@ -13,6 +16,7 @@ export default class Hasil extends Component {
       keranjangDetail: false,
       jumlah: 0,
       keterangan: "",
+      totalHarga: 0,
     };
   }
 
@@ -22,6 +26,7 @@ export default class Hasil extends Component {
       keranjangDetail: menuKeranjang,
       jumlah: menuKeranjang.jumlah,
       keterangan: menuKeranjang.keterangan,
+      totalHarga: menuKeranjang.total_harga,
     });
   };
 
@@ -33,18 +38,44 @@ export default class Hasil extends Component {
 
   onChangeHandler = (event) => {
     this.setState({
-      keterangan: event.target.value
-    })
-  }
+      keterangan: event.target.value,
+    });
+  };
 
   handleSubmit = (event) => {
-    event.preventDefault()
-    console.log("OK Fix");
-  }
+    event.preventDefault();
+
+    this.handleClose();
+
+    const keranjang = {
+      jumlah: this.state.jumlah,
+      total_harga: this.state.totalHarga,
+      product: this.state.keranjangDetail.product,
+      keterangan: this.state.keterangan,
+    };
+
+    axios
+      .put(API_URL + "keranjangs/" + this.state.keranjangDetail.id, keranjang)
+      .then((res) => {
+        this.props.refreshKerangjang();
+        swal({
+          title: "Update Pesanan Keranjang",
+          text: "update pesanan Keranjang " + keranjang.product.nama,
+          icon: "success",
+          button: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   tambahPorsi = () => {
     this.setState({
       jumlah: this.state.jumlah + 1,
+      totalHarga:
+        this.state.keranjangDetail.product.harga * (this.state.jumlah + 1),
     });
   };
 
@@ -52,6 +83,8 @@ export default class Hasil extends Component {
     if (this.state.jumlah !== 1) {
       this.setState({
         jumlah: this.state.jumlah - 1,
+        totalHarga:
+          this.state.keranjangDetail.product.harga * (this.state.jumlah - 1),
       });
     }
   };
