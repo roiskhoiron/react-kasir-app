@@ -10,6 +10,7 @@ const DialogKeranjang = ({
   kurangiPorsi,
   onChangeHandler,
   handleSubmit,
+  hapusPesanan,
   showDialog,
   keranjangDetail,
   jumlah,
@@ -74,7 +75,7 @@ const DialogKeranjang = ({
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='danger'>
+          <Button variant='danger' onClick={() => hapusPesanan(keranjangDetail.id)}>
             <FontAwesomeIcon icon={faTrash} /> Hapus Pesanan
           </Button>
         </Modal.Footer>

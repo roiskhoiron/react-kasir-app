@@ -70,6 +70,26 @@ export default class Hasil extends Component {
         console.log(error);
       });
   };
+  
+  hapusPesanan = (id) => {
+    this.handleClose();
+
+    axios
+      .delete(API_URL + "keranjangs/" + id,)
+      .then((res) => {
+        this.props.refreshKerangjang();
+        swal({
+          title: "Hapus Pesanan!",
+          text: "Sukses hapus pesanan " + this.state.keranjangDetail.product.nama,
+          icon: "error",
+          button: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   tambahPorsi = () => {
     this.setState({
@@ -132,6 +152,7 @@ export default class Hasil extends Component {
               kurangiPorsi={this.kurangiPorsi}
               onChangeHandler={this.onChangeHandler}
               handleSubmit={this.handleSubmit}
+              hapusPesanan={this.hapusPesanan}
               {...this.state}
             />
           </ListGroup>
