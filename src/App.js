@@ -28,10 +28,36 @@ export default class App extends Component {
       .catch((error) => {
         console.log(error);
       });
+
+    axios
+      .get(API_URL + "keranjangs")
+      .then((res) => {
+        console.log("Response : ", res);
+        const keranjangs = res.data;
+        this.setState({ keranjangs });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  componentDidUpdate(lastState) {
+    if (this.state.keranjangs !== lastState.keranjangs) {
+      axios
+        .get(API_URL + "keranjangs")
+        .then((res) => {
+          console.log("Response : ", res);
+          const keranjangs = res.data;
+          this.setState({ keranjangs });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 
   render() {
-    const { menus, categoryChoosed } = this.state;
+    const { menus, categoryChoosed, keranjangs } = this.state;
 
     return (
       <div className="App">
@@ -59,7 +85,7 @@ export default class App extends Component {
                     ))}
                 </Row>
               </Col>
-              <Hasil />
+              <Hasil keranjangs={ keranjangs }/>
             </Row>
           </Container>
         </div>
@@ -106,6 +132,7 @@ export default class App extends Component {
                 text: "Sukses Masuk Keranjang " + keranjang.product.nama,
                 icon: "success",
                 button: false,
+                timer: 1500,
               });
             })
             .catch((error) => {
@@ -119,13 +146,14 @@ export default class App extends Component {
           };
 
           axios
-            .put(API_URL + "keranjangs/"+res.data[0].id, keranjang)
+            .put(API_URL + "keranjangs/" + res.data[0].id, keranjang)
             .then((res) => {
               swal({
                 title: "Sukses Perbarui Keranjang",
                 text: "Sukses perbarui pesanan" + keranjang.product.nama,
                 icon: "success",
                 button: false,
+                timer: 1500,
               });
             })
             .catch((error) => {
