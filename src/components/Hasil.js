@@ -1,34 +1,33 @@
 import React, { Component } from "react";
-import { Button, Badge, Col, ListGroup, Modal, Row } from "react-bootstrap";
+import { Badge, Col, ListGroup, Row } from "react-bootstrap";
 import { numberWithCommas } from "../utils/utils";
+import DialogKeranjang from "./DialogKeranjang";
 import Purchasing from "./Purchasing";
 
 export default class Hasil extends Component {
-
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-       showDialog: false,
-       keranjangDetail: false,
-       jumlah: 0,
-       keterangan: ''
-    }
+      showDialog: false,
+      keranjangDetail: false,
+      jumlah: 0,
+      keterangan: "",
+    };
   }
 
   handleShow = (item) => {
     this.setState({
       showDialog: true,
       keranjangDetail: item,
-    })
-  }
+    });
+  };
 
   handleClose = () => {
     this.setState({
-      showDialog: false
-    })
-  }
-  
+      showDialog: false,
+    });
+  };
 
   render() {
     const { keranjangs } = this.props;
@@ -67,22 +66,10 @@ export default class Hasil extends Component {
               </ListGroup.Item>
             ))}
 
-            <Modal show={this.state.showDialog} onHide={this.handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                Woohoo, you're reading this text in a modal!
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant='secondary' onClick={this.handleClose}>
-                  Close
-                </Button>
-                <Button variant='primary' onClick={this.handleClose}>
-                  Save Changes
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            <DialogKeranjang
+              handleClose={this.handleClose}
+              showDialog={this.state.showDialog}
+            />
           </ListGroup>
         )}
 
