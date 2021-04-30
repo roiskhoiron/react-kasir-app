@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Badge, Col, ListGroup, Row } from "react-bootstrap";
+import { Badge, Card, Col, ListGroup, Row } from "react-bootstrap";
 import swal from "sweetalert";
 import { API_URL } from "../utils/constants";
 import { numberWithCommas } from "../utils/utils";
@@ -70,17 +70,18 @@ export default class Hasil extends Component {
         console.log(error);
       });
   };
-  
+
   hapusPesanan = (id) => {
     this.handleClose();
 
     axios
-      .delete(API_URL + "keranjangs/" + id,)
+      .delete(API_URL + "keranjangs/" + id)
       .then((res) => {
         this.props.refreshKerangjang();
         swal({
           title: "Hapus Pesanan!",
-          text: "Sukses hapus pesanan " + this.state.keranjangDetail.product.nama,
+          text:
+            "Sukses hapus pesanan " + this.state.keranjangDetail.product.nama,
           icon: "error",
           button: false,
           timer: 1500,
@@ -119,43 +120,45 @@ export default class Hasil extends Component {
         </h4>
         <hr />
         {keranjangs !== 0 && (
-          <ListGroup variant='flush'>
-            {keranjangs.map((menuKeranjang) => (
-              <ListGroup.Item
-                key={menuKeranjang.id}
-                onClick={() => this.handleShow(menuKeranjang)}
-              >
-                <Row>
-                  <Col xs={2}>
-                    <h4>
-                      <Badge pill variant='success'>
-                        {menuKeranjang.jumlah}
-                      </Badge>
-                    </h4>
-                  </Col>
-                  <Col>
-                    <h5>{menuKeranjang.product.nama}</h5>
-                    <p>Rp. {numberWithCommas(menuKeranjang.product.harga)}</p>
-                  </Col>
-                  <Col>
-                    <strong className='float-flight'>
-                      Rp. {numberWithCommas(menuKeranjang.total_harga)}
-                    </strong>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-            ))}
+          <Card className='overflow-auto hasil'>
+            <ListGroup variant='flush'>
+              {keranjangs.map((menuKeranjang) => (
+                <ListGroup.Item
+                  key={menuKeranjang.id}
+                  onClick={() => this.handleShow(menuKeranjang)}
+                >
+                  <Row>
+                    <Col xs={2}>
+                      <h4>
+                        <Badge pill variant='success'>
+                          {menuKeranjang.jumlah}
+                        </Badge>
+                      </h4>
+                    </Col>
+                    <Col>
+                      <h5>{menuKeranjang.product.nama}</h5>
+                      <p>Rp. {numberWithCommas(menuKeranjang.product.harga)}</p>
+                    </Col>
+                    <Col>
+                      <strong className='float-flight'>
+                        Rp. {numberWithCommas(menuKeranjang.total_harga)}
+                      </strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              ))}
 
-            <DialogKeranjang
-              handleClose={this.handleClose}
-              tambahPorsi={this.tambahPorsi}
-              kurangiPorsi={this.kurangiPorsi}
-              onChangeHandler={this.onChangeHandler}
-              handleSubmit={this.handleSubmit}
-              hapusPesanan={this.hapusPesanan}
-              {...this.state}
-            />
-          </ListGroup>
+              <DialogKeranjang
+                handleClose={this.handleClose}
+                tambahPorsi={this.tambahPorsi}
+                kurangiPorsi={this.kurangiPorsi}
+                onChangeHandler={this.onChangeHandler}
+                handleSubmit={this.handleSubmit}
+                hapusPesanan={this.hapusPesanan}
+                {...this.state}
+              />
+            </ListGroup>
+          </Card>
         )}
 
         <Purchasing {...this.props} keranjangs={keranjangs} />
