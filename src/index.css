@@ -15,6 +15,11 @@ code {
   background-color: #22668A;
 }
 
+.btn-primary {
+  background-color: #22668A;
+  color: white;
+}
+
 .category-aktif {
   background-color: #22668A;
   color: white;
