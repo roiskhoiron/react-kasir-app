@@ -40,7 +40,7 @@ export default class Purchasing extends Component {
               onClick={() => this.submitPurchasing(totalBayar)}
             >
               <FontAwesomeIcon icon={faShoppingCart} />
-              <strong>Bayar</strong>
+              <strong> Bayar</strong>
             </Button>
           </Col>
         </Row>

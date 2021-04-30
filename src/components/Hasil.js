@@ -16,10 +16,12 @@ export default class Hasil extends Component {
     };
   }
 
-  handleShow = (item) => {
+  handleShow = (menuKeranjang) => {
     this.setState({
       showDialog: true,
-      keranjangDetail: item,
+      keranjangDetail: menuKeranjang,
+      jumlah: menuKeranjang.jumlah,
+      keterangan: menuKeranjang.keterangan,
     });
   };
 
@@ -27,6 +29,31 @@ export default class Hasil extends Component {
     this.setState({
       showDialog: false,
     });
+  };
+
+  onChangeHandler = (event) => {
+    this.setState({
+      keterangan: event.target.value
+    })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    console.log("OK Fix");
+  }
+
+  tambahPorsi = () => {
+    this.setState({
+      jumlah: this.state.jumlah + 1,
+    });
+  };
+
+  kurangiPorsi = () => {
+    if (this.state.jumlah !== 1) {
+      this.setState({
+        jumlah: this.state.jumlah - 1,
+      });
+    }
   };
 
   render() {
@@ -40,26 +67,26 @@ export default class Hasil extends Component {
         <hr />
         {keranjangs !== 0 && (
           <ListGroup variant='flush'>
-            {keranjangs.map((item) => (
+            {keranjangs.map((menuKeranjang) => (
               <ListGroup.Item
-                key={item.id}
-                onClick={() => this.handleShow(item)}
+                key={menuKeranjang.id}
+                onClick={() => this.handleShow(menuKeranjang)}
               >
                 <Row>
                   <Col xs={2}>
                     <h4>
                       <Badge pill variant='success'>
-                        {item.jumlah}
+                        {menuKeranjang.jumlah}
                       </Badge>
                     </h4>
                   </Col>
                   <Col>
-                    <h5>{item.product.nama}</h5>
-                    <p>Rp. {numberWithCommas(item.product.harga)}</p>
+                    <h5>{menuKeranjang.product.nama}</h5>
+                    <p>Rp. {numberWithCommas(menuKeranjang.product.harga)}</p>
                   </Col>
                   <Col>
                     <strong className='float-flight'>
-                      Rp. {numberWithCommas(item.total_harga)}
+                      Rp. {numberWithCommas(menuKeranjang.total_harga)}
                     </strong>
                   </Col>
                 </Row>
@@ -68,12 +95,16 @@ export default class Hasil extends Component {
 
             <DialogKeranjang
               handleClose={this.handleClose}
-              showDialog={this.state.showDialog}
+              tambahPorsi={this.tambahPorsi}
+              kurangiPorsi={this.kurangiPorsi}
+              onChangeHandler={this.onChangeHandler}
+              handleSubmit={this.handleSubmit}
+              {...this.state}
             />
           </ListGroup>
         )}
 
-        <Purchasing keranjangs={keranjangs} {...this.props} />
+        <Purchasing {...this.props} keranjangs={keranjangs} />
       </Col>
     );
   }
